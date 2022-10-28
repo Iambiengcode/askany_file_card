@@ -4,7 +4,7 @@ version: 0.0.1
 homepage:
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: ">=2.18.2 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -21,9 +21,16 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # To add assets to your package, add an assets section, like this:
   # assets:
+  assets:
+    - packages/askany_file_card/icons/ic_apk.png
+    - packages/askany_file_card/icons/ic_none.png
+    - packages/askany_file_card/icons/ic_doc.png
+    - packages/askany_file_card/icons/ic_pdf.png
+    - packages/askany_file_card/icons/ic_ppt.png
+    - packages/askany_file_card/icons/ic_txt.png
+    - packages/askany_file_card/icons/ic_xls.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   #

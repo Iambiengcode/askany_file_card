@@ -47,7 +47,8 @@ class ListFileCard extends StatelessWidget {
                         Row(
                           children: [
                             SizedBox(
-                              width: fileBoxParamentersCard?.iconSize ?? 40,
+                              width:
+                                  (fileBoxParamentersCard?.iconSize ?? 32) + 16,
                             ),
                             Expanded(
                               child: Container(

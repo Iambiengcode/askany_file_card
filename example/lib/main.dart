@@ -18,13 +18,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Example(),
+      home: const Example(
+        brightness: Brightness.dark,
+      ),
     );
   }
 }
 
 class Example extends StatefulWidget {
-  const Example({Key? key}) : super(key: key);
+  final Brightness brightness;
+  const Example({Key? key, this.brightness = Brightness.light})
+      : super(key: key);
 
   @override
   State<Example> createState() => _ExampleState();
@@ -55,7 +59,9 @@ class _ExampleState extends State<Example> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: const Color(0xFFF5F5F5),
+          color: widget.brightness == Brightness.light
+              ? const Color(0xFFF5F5F5)
+              : const Color(0xFF14171A),
           width: double.infinity,
           padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
@@ -92,7 +98,12 @@ class _ExampleState extends State<Example> {
                 listPath: listFilePicker.map((file) {
                   return file?.files.first.path.toString() ?? '';
                 }).toList(),
-                fileBoxParamenters: FileBoxParamenters(),
+                fileBoxParamenters: FileBoxParamenters(
+                  brightness: widget.brightness,
+                ),
+                fileBoxParamentersCard: FileBoxParamenters(
+                  brightness: widget.brightness,
+                ),
                 onTapCard: () {},
               ),
             ],

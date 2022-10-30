@@ -1,7 +1,5 @@
 library askany_file_card;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+class AskanyFileCard{
+  
 }

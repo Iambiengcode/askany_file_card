@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -24,6 +25,7 @@ flutter:
   # To add assets to your package, add an assets section, like this:
   # assets:
   assets:
+    - packages/askany_file_card/icons/ic_download.png
     - packages/askany_file_card/icons/ic_apk.png
     - packages/askany_file_card/icons/ic_none.png
     - packages/askany_file_card/icons/ic_doc.png

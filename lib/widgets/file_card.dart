@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:askany_file_card/colors/package_color.dart';
 import 'package:askany_file_card/models/file_box_paramenters.dart';
-import 'package:askany_file_card/models/icon_file.dart';
+import 'package:askany_file_card/models/string_of_file.dart';
 import 'package:flutter/material.dart';
 
-class FileCard extends StatelessWidget {
+class FileCard extends StatefulWidget {
   final FileBoxParamenters fileBoxParamenters;
   final String filePath;
 
@@ -16,27 +16,38 @@ class FileCard extends StatelessWidget {
   });
 
   @override
+  State<FileCard> createState() => _FileCardState();
+}
+
+class _FileCardState extends State<FileCard> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: fileBoxParamenters.brightness == Brightness.dark
+        color: widget.fileBoxParamenters.brightness == Brightness.dark
             ? backgroundFileCardDark
             : backgroundFileCardLight,
-        borderRadius: BorderRadius.circular(fileBoxParamenters.radiusBox),
+        borderRadius:
+            BorderRadius.circular(widget.fileBoxParamenters.radiusBox),
       ),
       margin: const EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.symmetric(
-        horizontal: fileBoxParamenters.paddingHorizontal,
-        vertical: fileBoxParamenters.paddingVertical,
+        horizontal: widget.fileBoxParamenters.paddingHorizontal,
+        vertical: widget.fileBoxParamenters.paddingVertical,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            StringIconFile().assetImage(filePath: filePath),
-            height: fileBoxParamenters.iconSize,
-            width: fileBoxParamenters.iconSize,
+            StringOfFile().assetImage(filePath: widget.filePath),
+            height: widget.fileBoxParamenters.iconSize,
+            width: widget.fileBoxParamenters.iconSize,
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -44,37 +55,42 @@ class FileCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Dao-Hong-Vinh-...0213123873.pdf',
+                  StringOfFile().getTitleFile(widget.filePath),
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: fileBoxParamenters.brightness == Brightness.dark
-                        ? colorTitleFileDark
-                        : colorTitleFileLight,
+                    color:
+                        widget.fileBoxParamenters.brightness == Brightness.dark
+                            ? colorTitleFileDark
+                            : colorTitleFileLight,
                   ),
                 ),
                 Text(
                   // StringIconFile().getFileSize(),
-                  (filePath.isEmpty ? 0 : File(filePath).lengthSync())
+                  (widget.filePath.isEmpty
+                          ? 0
+                          : StringOfFile().getFileSize(widget.filePath))
                       .toString(),
                   style: TextStyle(
                     fontSize: 13,
-                    color: fileBoxParamenters.brightness == Brightness.dark
-                        ? colorCapacityDark
-                        : colorCapacityLight,
+                    color:
+                        widget.fileBoxParamenters.brightness == Brightness.dark
+                            ? colorCapacityDark
+                            : colorCapacityLight,
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(width: 8),
-          Directory(filePath).existsSync()
+          FileSystemEntity.typeSync(widget.filePath) !=
+                  FileSystemEntityType.notFound
               ? const SizedBox()
               : Image.asset(
                   'packages/askany_file_card/icons/ic_download.png',
                   height: 17,
                   width: 17,
-                  color: fileBoxParamenters.brightness == Brightness.dark
+                  color: widget.fileBoxParamenters.brightness == Brightness.dark
                       ? colorTitleFileDark
                       : colorTitleFileLight,
                 ),

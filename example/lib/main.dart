@@ -35,9 +35,7 @@ class _ExampleState extends State<Example> {
 
   Future<void> pickFileExcel() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-      );
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       setState(() {
         filePicker = result;
@@ -69,6 +67,8 @@ class _ExampleState extends State<Example> {
               GestureDetector(
                 onTap: () async {
                   await pickFileExcel();
+                  // ignore: use_build_context_synchronously
+                  // Navigator.of(context).pop();
                 },
                 child: Container(
                   height: 50,

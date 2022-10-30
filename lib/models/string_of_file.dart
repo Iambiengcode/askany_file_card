@@ -10,23 +10,22 @@ class StringOfFile {
 
   IconFile enumIconFile({required String filePath}) {
     String file = filePath.split('.').last;
-    switch (file) {
-      case 'pdf':
-        return IconFile.pdf;
-      case 'doc':
-        return IconFile.doc;
-      case 'docs':
-        return IconFile.doc;
-      case 'docx':
-        return IconFile.doc;
-      case 'txt':
-        return IconFile.txt;
-      case 'ppt':
-        return IconFile.ppt;
-      case 'xls':
-        return IconFile.xls;
-      default:
-        return IconFile.none;
+    if (file.startsWith('pdf')) {
+      return IconFile.pdf;
+    }
+    if (file.startsWith('doc')) {
+      return IconFile.doc;
+    }
+    if (file.startsWith('txt')) {
+      return IconFile.txt;
+    }
+    if (file.startsWith('ppt')) {
+      return IconFile.ppt;
+    }
+    if (file.startsWith('xls')) {
+      return IconFile.xls;
+    } else {
+      return IconFile.none;
     }
   }
 

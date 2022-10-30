@@ -1,5 +1,5 @@
 import 'package:askany_file_card/models/file_box_paramenters.dart';
-import 'package:askany_file_card/widgets/file_card.dart';
+import 'package:askany_file_card/widgets/list_file_card.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -31,14 +31,14 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
-  FilePickerResult? filePicker;
+  List<FilePickerResult?> listFilePicker = [];
 
   Future<void> pickFileExcel() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       setState(() {
-        filePicker = result;
+        listFilePicker.add(result);
       });
     } catch (err) {
       debugPrint(err.toString());
@@ -88,11 +88,12 @@ class _ExampleState extends State<Example> {
               const SizedBox(
                 height: 40,
               ),
-              FileCard(
-                fileBoxParamenters: FileBoxParamenters(
-                  brightness: Brightness.light,
-                ),
-                filePath: filePicker?.files.first.path ?? '',
+              ListFileCard(
+                listPath: listFilePicker.map((file) {
+                  return file?.files.first.path.toString() ?? '';
+                }).toList(),
+                fileBoxParamenters: FileBoxParamenters(),
+                onTapCard: () {},
               ),
             ],
           ),

@@ -2,87 +2,68 @@
 
 ## :four_leaf_clover::four_leaf_clover: Preview
 
-<!-- <p>
-<img src="https://github.com/Askany-NDN/reaction_button_askany/blob/main/screenshots/IMG_0470.png?raw=true" width=180/>
-<img src="https://github.com/Askany-NDN/reaction_button_askany/blob/main/screenshots/IMG_0471.png?raw=true" width=180/>
-<img src="https://github.com/Askany-NDN/reaction_button_askany/blob/main/screenshots/IMG_0465.png?raw=true" width=180/>
-<img src="https://github.com/Askany-NDN/reaction_button_askany/blob/main/screenshots/IMG_0467.png?raw=true" width=180/>
-</p> -->
+<p>
+<img src="https://github.com/Iambiengcode/askany_file_card/blob/main/screenshots/light_theme.jpg?raw=true" width=180/>
+<img src="https://github.com/Iambiengcode/askany_file_card/blob/main/screenshots/dark_theme.jpg?raw=true" width=180/>
+</p>
 
-<!-- ## Features
+## Features
 
-- Support show popup emotions picker
-- Support reaction wrapper for message card use case
+- Support show file parameters and List file
+- If the file doesn't exists in the phone, appear icon download
 
 ## Usage
 
-- Show reaction popup
+- Show file
 
 ```dart
-        GestureDetector(
-          onTapDown: (details) {
-            ReactionAskany.showReactionBox(
-              context,
-              offset: details.globalPosition,
-              boxParamenters: boxParamenters,
-              emotionPicked: _emotion,
-              handlePressed: (Emotions emotion) {
-                setState(() {
-                  _emotion = emotion;
-                });
-              },
-            );
-          },
-          child: widget.buttonReaction,
+        FileCard(
+            onTap: (String val){},
+            fileBoxParamenters: FileBoxParamenters(
+                brightness: Brightness.light,
+                paddingHorizontal: 8,
+                paddingVertical: 8,
+                iconSize: 32,
+                radiusBox: 7,
+            ),
+            filePath: file.path.toString(),
         ),
 ```
 
-- Use reaction wrapper - useful for reaction message
+- Show List file
 
 ```dart
-            ReactionWrapper(
-              boxParamenters: ReactionBoxParamenters(
+        ListFileCard(
+            listPath: listFile,
+            fileBoxParamenters: FileBoxParamenters(
                 brightness: Brightness.light,
-                iconSize: 26,
-                iconSpacing: 10,
-                paddingHorizontal: 30,
-                radiusBox: 40,
-                quantityPerPage: 6,
-              ),
-              buttonReaction: const Padding(
-                padding: EdgeInsets.only(top: 2.0),
-                child: Icon(
-                  Icons.face_outlined,
-                  size: 20.0,
-                  color: Colors.grey,
-                ),
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12.0,
-                  horizontal: 20.0,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.greenAccent.shade100,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Text(
-                  'Message from lambiengcode <3',
-                ),
-              ),
+                paddingHorizontal: 8,
+                paddingVertical: 8,
+                iconSize: 32,
+                radiusBox: 7,
             ),
+            fileBoxParamentersCard: FileBoxParamenters(
+                brightness: Brightness.light,
+                paddingHorizontal: 8,
+                paddingVertical: 8,
+                iconSize: 32,
+                radiusBox: 7,
+            ),
+            onTapCard: (val) {},
+            physics: const BouncingScrollPhysics(),
+        ),
 ```
 
 ### ReactionBoxParamenters
 
 | parameter         | description                                          | default          |
 | ----------------- | ---------------------------------------------------- | ---------------- |
-| iconSize          | Size of emotion in reaction box                      | 20               |
-| iconSpacing       | Padding horizontal value for each emotion            | 8                |
-| paddingHorizontal | Padding horizontal value for reaction box            | 16               |
-| radiusBox         | Radius circular of reaction box                      | 10               |
-| quantityPerPage   | Number of emotions per page view                     | 5                |
-| brightness        | Set brightness for show background color compatitive | Brightness.light | -->
+| iconSize          | Size of icon File                                    | 32               |
+| iconSpacing       | Space between icon and text                          | 8                |
+| paddingHorizontal | Padding horizontal value for file card               | 8                |
+| paddingVertical   | Padding vertical value for file card                 | 8                |
+| radiusBox         | Radius circular of file box                          | 7                |
+| brightness        | Set brightness for show background color compatitive | Brightness.light |
 
 ## Download Askany
 

@@ -10,6 +10,7 @@ class ListFileCard extends StatelessWidget {
   final Function(String) onTapCard;
   final ScrollController? controller;
   final ScrollPhysics? physics;
+  final String textOpen;
   const ListFileCard({
     Key? key,
     required this.listPath,
@@ -18,6 +19,7 @@ class ListFileCard extends StatelessWidget {
     required this.onTapCard,
     this.controller,
     this.physics = const BouncingScrollPhysics(),
+    this.textOpen = 'Mở',
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class ListFileCard extends StatelessWidget {
                 fileBoxParamenters:
                     fileBoxParamentersCard ?? FileBoxParamenters(),
                 filePath: listPath[index],
+                textOpen: textOpen,
               ),
               index != listPath.length - 1
                   ? Column(

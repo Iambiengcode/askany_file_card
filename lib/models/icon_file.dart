@@ -4,5 +4,6 @@ enum IconFile {
   ppt,
   xls,
   txt,
+  apk,
   none,
 }

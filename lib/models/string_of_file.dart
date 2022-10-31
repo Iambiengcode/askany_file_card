@@ -24,6 +24,9 @@ class StringOfFile {
     }
     if (file.startsWith('xls')) {
       return IconFile.xls;
+    }
+    if (file.startsWith('apk')) {
+      return IconFile.apk;
     } else {
       return IconFile.none;
     }

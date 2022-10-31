@@ -7,7 +7,7 @@ class ListFileCard extends StatelessWidget {
   final List<String> listPath;
   final FileBoxParamenters fileBoxParamenters;
   final FileBoxParamenters? fileBoxParamentersCard;
-  final Function onTapCard;
+  final Function(String) onTapCard;
   const ListFileCard({
     Key? key,
     required this.listPath,

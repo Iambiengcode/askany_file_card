@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class FileCard extends StatefulWidget {
   final FileBoxParamenters fileBoxParamenters;
   final String filePath;
-  final Function onTap;
+  final Function(String) onTap;
   const FileCard({
     super.key,
     required this.fileBoxParamenters,
@@ -29,7 +29,9 @@ class _FileCardState extends State<FileCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap(),
+      onTap: () {
+        widget.onTap(widget.filePath);
+      },
       child: Container(
         decoration: BoxDecoration(
           color: widget.fileBoxParamenters.brightness == Brightness.dark

@@ -35,15 +35,17 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
-  List<FilePickerResult?> listFilePicker = [];
+  List<String> listFile = [];
 
   Future<void> pickFileExcel() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-      setState(() {
-        listFilePicker.add(result);
-      });
+      if (result != null) {
+        setState(() {
+          listFile.add(result.files.first.path.toString());
+        });
+      }
     } catch (err) {
       debugPrint(err.toString());
     }
@@ -95,16 +97,14 @@ class _ExampleState extends State<Example> {
                 height: 40,
               ),
               ListFileCard(
-                listPath: listFilePicker.map((file) {
-                  return file?.files.first.path.toString() ?? '';
-                }).toList(),
+                listPath: listFile,
                 fileBoxParamenters: FileBoxParamenters(
                   brightness: widget.brightness,
                 ),
                 fileBoxParamentersCard: FileBoxParamenters(
                   brightness: widget.brightness,
                 ),
-                onTapCard: () {},
+                onTapCard: (val) {},
               ),
             ],
           ),

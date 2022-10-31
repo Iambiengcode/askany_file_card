@@ -8,12 +8,14 @@ class ListFileCard extends StatelessWidget {
   final FileBoxParamenters fileBoxParamenters;
   final FileBoxParamenters? fileBoxParamentersCard;
   final Function(String) onTapCard;
+  final ScrollController? controller;
   const ListFileCard({
     Key? key,
     required this.listPath,
     required this.fileBoxParamenters,
     this.fileBoxParamentersCard,
     required this.onTapCard,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class ListFileCard extends StatelessWidget {
       child: ListView.builder(
         physics: const BouncingScrollPhysics(),
         itemCount: listPath.length,
+        controller: controller,
         shrinkWrap: true,
         itemBuilder: ((context, index) {
           return Column(

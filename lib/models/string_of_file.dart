@@ -43,6 +43,17 @@ class StringOfFile {
   }
 
   String getTitleFile(String path) {
-    return path.split('/').last;
+    String first = '';
+    String last = '';
+    String between = '...';
+    String fileName = path.split('/').last;
+    if (fileName.length > 30) {
+      first = fileName.substring(0, 15);
+      last = fileName.substring(fileName.length - 11, fileName.length);
+      return first + between + last;
+    } else {
+      return fileName;
+    }
+    // return path.split('/').last;
   }
 }

@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       home: const Example(
         brightness: Brightness.dark,
       ),
@@ -103,6 +104,8 @@ class _ExampleState extends State<Example> {
                 ),
                 fileBoxParamentersCard: FileBoxParamenters(
                   brightness: widget.brightness,
+                  paddingVertical: 12,
+                  paddingHorizontal: 12,
                 ),
                 onTapCard: (val) {},
               ),

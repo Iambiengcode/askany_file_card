@@ -9,11 +9,18 @@ class FileCard extends StatefulWidget {
   final FileBoxParamenters fileBoxParamenters;
   final String filePath;
   final Function(String) onTap;
+  final String textOpen;
+  final double sizeTextTitle;
+  final double sizeTextCapacity;
+
   const FileCard({
     super.key,
     required this.fileBoxParamenters,
     required this.filePath,
     required this.onTap,
+    this.textOpen = 'Mở',
+    this.sizeTextCapacity = 11,
+    this.sizeTextTitle = 13,
   });
 
   @override
@@ -60,8 +67,9 @@ class _FileCardState extends State<FileCard> {
                 children: [
                   Text(
                     StringOfFile().getTitleFile(widget.filePath),
+                    maxLines: 2,
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: widget.sizeTextTitle,
                       fontWeight: FontWeight.w600,
                       color: widget.fileBoxParamenters.brightness ==
                               Brightness.dark
@@ -70,17 +78,27 @@ class _FileCardState extends State<FileCard> {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    (widget.filePath.isEmpty
-                            ? 0
-                            : StringOfFile().getFileSize(widget.filePath))
-                        .toString(),
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: widget.fileBoxParamenters.brightness ==
-                              Brightness.dark
-                          ? colorCapacityDark
-                          : colorCapacityLight,
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: widget.sizeTextCapacity,
+                        color: widget.fileBoxParamenters.brightness ==
+                                Brightness.dark
+                            ? colorCapacityDark
+                            : colorCapacityLight,
+                      ),
+                      children: [
+                        TextSpan(
+                          text:
+                              '${(widget.filePath.isEmpty ? '' : StringOfFile().getTypeFile(widget.filePath)).toString().toUpperCase()} - ',
+                        ),
+                        TextSpan(
+                          text: (widget.filePath.isEmpty
+                                  ? 0
+                                  : StringOfFile().getFileSize(widget.filePath))
+                              .toString(),
+                        )
+                      ],
                     ),
                   ),
                 ],
@@ -89,7 +107,30 @@ class _FileCardState extends State<FileCard> {
             const SizedBox(width: 8),
             FileSystemEntity.typeSync(widget.filePath) !=
                     FileSystemEntityType.notFound
-                ? const SizedBox()
+                ? Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: widget.fileBoxParamenters.brightness ==
+                              Brightness.dark
+                          ? backgroundOpenDark
+                          : backgroundOpenLight,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      widget.textOpen,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: widget.fileBoxParamenters.brightness ==
+                                Brightness.dark
+                            ? colorOpenDark
+                            : colorOpenLight,
+                      ),
+                    ),
+                  )
                 : Image.asset(
                     'packages/askany_file_card/icons/ic_download.png',
                     height: 17,

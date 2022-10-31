@@ -49,7 +49,7 @@ class StringOfFile {
     String first = '';
     String last = '';
     String between = '...';
-    String fileName = path.split('/').last;
+    String fileName = path.split('/').last.split('.').first;
     if (fileName.length > 30) {
       first = fileName.substring(0, 15);
       last = fileName.substring(fileName.length - 11, fileName.length);
@@ -57,6 +57,9 @@ class StringOfFile {
     } else {
       return fileName;
     }
-    // return path.split('/').last;
+  }
+
+  String getTypeFile(String path) {
+    return path.split('.').last;
   }
 }

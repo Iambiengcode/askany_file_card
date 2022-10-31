@@ -61,7 +61,7 @@ class _FileCardState extends State<FileCard> {
                   Text(
                     StringOfFile().getTitleFile(widget.filePath),
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 13,
                       fontWeight: FontWeight.w600,
                       color: widget.fileBoxParamenters.brightness ==
                               Brightness.dark
@@ -69,13 +69,14 @@ class _FileCardState extends State<FileCard> {
                           : colorTitleFileLight,
                     ),
                   ),
+                  const SizedBox(height: 2),
                   Text(
                     (widget.filePath.isEmpty
                             ? 0
                             : StringOfFile().getFileSize(widget.filePath))
                         .toString(),
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 11,
                       color: widget.fileBoxParamenters.brightness ==
                               Brightness.dark
                           ? colorCapacityDark

@@ -1,7 +1,8 @@
 name: askany_file_card
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+homepage: https://github.com/Iambiengcode/askany_file_card
+repository: https://github.com/Iambiengcode/askany_file_card
 
 environment:
   sdk: ">=2.18.2 <3.0.0"
@@ -10,9 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
-
-
 
 dev_dependencies:
   flutter_test:

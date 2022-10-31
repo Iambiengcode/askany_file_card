@@ -7,4 +7,4 @@ const Color colorTitleFileLight = Color(0xFF3D3D4E);
 Color colorTitleFileDark = Colors.grey.shade100;
 
 const Color colorCapacityLight = Color(0xFF6E6D7A);
-const Color colorCapacityDark = Color(0xFFACACB9);
+const Color colorCapacityDark = Color(0xFFa1a0ab);

@@ -12,7 +12,8 @@ class FileCard extends StatefulWidget {
   final String textOpen;
   final double sizeTextTitle;
   final double sizeTextCapacity;
-
+  final Color? colorIconDownload;
+  final int? fileSize;
   const FileCard({
     super.key,
     required this.fileBoxParamenters,
@@ -21,6 +22,8 @@ class FileCard extends StatefulWidget {
     this.textOpen = 'Mở',
     this.sizeTextCapacity = 11,
     this.sizeTextTitle = 13,
+    this.colorIconDownload,
+    this.fileSize,
   });
 
   @override
@@ -40,10 +43,13 @@ class _FileCardState extends State<FileCard> {
         widget.onTap(widget.filePath);
       },
       child: Container(
+        height: widget.fileBoxParamenters.height,
+        margin: widget.fileBoxParamenters.margin,
         decoration: BoxDecoration(
-          color: widget.fileBoxParamenters.brightness == Brightness.dark
-              ? backgroundFileCardDark
-              : backgroundFileCardLight,
+          color: widget.fileBoxParamenters.backgroundColor ??
+              (widget.fileBoxParamenters.brightness == Brightness.dark
+                  ? backgroundFileCardDark
+                  : backgroundFileCardLight),
           borderRadius:
               BorderRadius.circular(widget.fileBoxParamenters.radiusBox),
         ),
@@ -71,10 +77,11 @@ class _FileCardState extends State<FileCard> {
                     style: TextStyle(
                       fontSize: widget.sizeTextTitle,
                       fontWeight: FontWeight.w600,
-                      color: widget.fileBoxParamenters.brightness ==
-                              Brightness.dark
-                          ? colorTitleFileDark
-                          : colorTitleFileLight,
+                      color: widget.fileBoxParamenters.colorTitle ??
+                          (widget.fileBoxParamenters.brightness ==
+                                  Brightness.dark
+                              ? colorTitleFileDark
+                              : colorTitleFileLight),
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -82,10 +89,11 @@ class _FileCardState extends State<FileCard> {
                     text: TextSpan(
                       style: TextStyle(
                         fontSize: widget.sizeTextCapacity,
-                        color: widget.fileBoxParamenters.brightness ==
-                                Brightness.dark
-                            ? colorCapacityDark
-                            : colorCapacityLight,
+                        color: widget.fileBoxParamenters.colorCapacity ??
+                            (widget.fileBoxParamenters.brightness ==
+                                    Brightness.dark
+                                ? colorCapacityDark
+                                : colorCapacityLight),
                       ),
                       children: [
                         TextSpan(
@@ -93,10 +101,14 @@ class _FileCardState extends State<FileCard> {
                               '${(widget.filePath.isEmpty ? '' : StringOfFile().getTypeFile(widget.filePath)).toString().toUpperCase()} - ',
                         ),
                         TextSpan(
-                          text: (widget.filePath.isEmpty
-                                  ? 0
-                                  : StringOfFile().getFileSize(widget.filePath))
-                              .toString(),
+                          text: widget.fileSize != null
+                              ? StringOfFile()
+                                  .getSizeFromBytes(widget.fileSize!)
+                              : ((widget.filePath.isEmpty
+                                      ? 0
+                                      : StringOfFile()
+                                          .getFileSize(widget.filePath)))
+                                  .toString(),
                         )
                       ],
                     ),
@@ -135,10 +147,10 @@ class _FileCardState extends State<FileCard> {
                     'packages/askany_file_card/icons/ic_download.png',
                     height: 17,
                     width: 17,
-                    color:
-                        widget.fileBoxParamenters.brightness == Brightness.dark
+                    color: widget.colorIconDownload ??
+                        (widget.fileBoxParamenters.brightness == Brightness.dark
                             ? colorTitleFileDark
-                            : colorTitleFileLight,
+                            : colorTitleFileLight),
                   ),
             const SizedBox(width: 8),
           ],

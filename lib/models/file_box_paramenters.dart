@@ -10,6 +10,12 @@ class FileBoxParamenters {
   final double radiusBox;
   final Brightness brightness;
   final double paddingVertical;
+  final EdgeInsetsGeometry? margin;
+  final double? height;
+  final Color? backgroundColor;
+  final Color? colorTitle;
+  final Color? colorCapacity;
+
   FileBoxParamenters({
     this.iconSize = 32,
     this.iconSpacing = 8,
@@ -17,6 +23,11 @@ class FileBoxParamenters {
     this.paddingVertical = 8,
     this.radiusBox = 7,
     this.brightness = Brightness.light,
+    this.margin,
+    this.height,
+    this.backgroundColor,
+    this.colorTitle,
+    this.colorCapacity,
   });
 
   FileBoxParamenters copyWith({
@@ -26,6 +37,11 @@ class FileBoxParamenters {
     double? radiusBox,
     Brightness? brightness,
     double? paddingVertical,
+    double? height,
+    EdgeInsetsGeometry? margin,
+    Color? backgroundColor,
+    Color? colorTitle,
+    Color? colorCapacity,
   }) {
     return FileBoxParamenters(
       iconSize: iconSize ?? this.iconSize,
@@ -34,6 +50,11 @@ class FileBoxParamenters {
       radiusBox: radiusBox ?? this.radiusBox,
       brightness: brightness ?? this.brightness,
       paddingVertical: paddingVertical ?? this.paddingVertical,
+      margin: margin ?? this.margin,
+      height: height ?? this.height,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      colorCapacity: colorCapacity ?? this.colorCapacity,
+      colorTitle: colorTitle ?? this.colorTitle,
     );
   }
 

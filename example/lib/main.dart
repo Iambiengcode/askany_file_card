@@ -1,9 +1,17 @@
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:askany_file_card/models/file_box_paramenters.dart';
 import 'package:askany_file_card/widgets/list_file_card.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   runApp(const MyApp());
 }
 
@@ -36,7 +44,12 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
-  List<String> listFile = [];
+  late List<String> listFile;
+  ReceivePort receivePort = ReceivePort();
+  int percentProgress = 10;
+  bool isDownloading = false;
+  bool isDownloadSuccess = false;
+  bool isExist = false;
 
   Future<void> pickFileExcel() async {
     try {
@@ -52,9 +65,61 @@ class _ExampleState extends State<Example> {
     }
   }
 
+  _downloadFile() async {
+    var status = await Permission.storage.request();
+    if (status.isGranted) {
+      setState(() {
+        isDownloading = true;
+      });
+      final baseStorage = await getExternalStorageDirectory();
+      await FlutterDownloader.enqueue(
+          url:
+              'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+          savedDir: baseStorage!.path,
+          showNotification: true,
+          openFileFromNotification: true,
+          saveInPublicStorage: true);
+    } else {
+      // print('Not permission');
+    }
+  }
+
+  listenDownloadFile() {
+    IsolateNameServer.registerPortWithName(
+        receivePort.sendPort, "downloadFile");
+    receivePort.listen((dynamic data) {
+      DownloadTaskStatus status = data[1];
+      // print('status status: ${status.value}');
+      // print('step progress: ${data[2]}');
+      setState(() {
+        percentProgress = data[2];
+        if (status.value == 3) {
+          // print('Download sucess sucess');
+          // download file success and callBack update isExist
+          isDownloading = false;
+        }
+      });
+    });
+    FlutterDownloader.registerCallback(downloadCallBack);
+  }
+
+  @pragma('vm:entry-point')
+  static downloadCallBack(String id, DownloadTaskStatus status, int progress) {
+    SendPort? sendPort = IsolateNameServer.lookupPortByName('downloadFile');
+    sendPort!.send([id, status, progress]);
+  }
+
   @override
   void initState() {
     super.initState();
+    listenDownloadFile();
+    listFile = [];
+  }
+
+  @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloadFile');
+    super.dispose();
   }
 
   @override
@@ -107,7 +172,10 @@ class _ExampleState extends State<Example> {
                   paddingVertical: 12,
                   paddingHorizontal: 12,
                 ),
-                onTapCard: (val) {},
+                onTapCard: (val) {
+                  // print('aaaabbbb: $val');
+                  _downloadFile();
+                },
               ),
             ],
           ),

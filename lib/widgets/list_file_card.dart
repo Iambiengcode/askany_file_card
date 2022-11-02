@@ -8,6 +8,7 @@ class ListFileCard extends StatelessWidget {
   final FileBoxParamenters fileBoxParamenters;
   final FileBoxParamenters? fileBoxParamentersCard;
   final Function(String) onTapCard;
+
   final ScrollController? controller;
   final ScrollPhysics? physics;
   final String textOpen;
@@ -40,11 +41,14 @@ class ListFileCard extends StatelessWidget {
           return Column(
             children: [
               FileCard(
+                onActionTap: () {},
                 onTap: onTapCard,
                 fileBoxParamenters:
                     fileBoxParamentersCard ?? FileBoxParamenters(),
                 filePath: listPath[index],
                 textOpen: textOpen,
+                localFilePath: '',
+                filePathDownload: '',
               ),
               index != listPath.length - 1
                   ? Column(

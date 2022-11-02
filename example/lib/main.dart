@@ -2,6 +2,7 @@ import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:askany_file_card/models/file_box_paramenters.dart';
+import 'package:askany_file_card/widgets/file_card.dart';
 import 'package:askany_file_card/widgets/list_file_card.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   runApp(const MyApp());
+}
+
+class Downloadlass {
+  static void callBack(String id, DownloadTaskStatus status, int progress) {
+    SendPort sendPort =
+        IsolateNameServer.lookupPortByName('downloader_send_port')!;
+    sendPort.send([id, status, progress]);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -44,9 +53,13 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
+  final String localFile =
+      '/data/user/0/com.example.example/cache/file_picker/';
   late List<String> listFile;
   ReceivePort receivePort = ReceivePort();
-  int percentProgress = 10;
+  String taskID = '';
+  int downloadStatus = 0;
+  int percentProgress = 0;
   bool isDownloading = false;
   bool isDownloadSuccess = false;
   bool isExist = false;
@@ -65,6 +78,38 @@ class _ExampleState extends State<Example> {
     }
   }
 
+  Future<void> _pauseDownload(String? taskId) async {
+    await FlutterDownloader.pause(taskId: taskId!);
+  }
+
+  Future<void> _resumeDownload(String? taskId) async {
+    final newTaskId = await FlutterDownloader.resume(taskId: taskId!);
+    taskId = newTaskId;
+  }
+
+  Future<void> _retryDownload(String? taskId) async {
+    final newTaskId = await FlutterDownloader.retry(taskId: taskId!);
+    taskId = newTaskId;
+  }
+
+  Future<bool> _openDownloadedFile(String? taskId) {
+    if (taskId != null) {
+      return FlutterDownloader.open(taskId: taskId);
+    } else {
+      return Future.value(false);
+    }
+  }
+
+  Future<void> _cancelDownloadFile(String? taskID) async {
+    await FlutterDownloader.cancel(
+      taskId: taskID!,
+    );
+
+    setState(() {
+      percentProgress = 0;
+    });
+  }
+
   _downloadFile() async {
     var status = await Permission.storage.request();
     if (status.isGranted) {
@@ -72,13 +117,16 @@ class _ExampleState extends State<Example> {
         isDownloading = true;
       });
       final baseStorage = await getExternalStorageDirectory();
+      print(baseStorage!.path);
       await FlutterDownloader.enqueue(
-          url:
-              'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
-          savedDir: baseStorage!.path,
-          showNotification: true,
-          openFileFromNotification: true,
-          saveInPublicStorage: true);
+        url:
+            'https://s3.ap-southeast-1.amazonaws.com/askany.dev/files/db3e607a-007c-4e08-887e-7478e3cfc4e4.pdf',
+        savedDir: baseStorage.path,
+        showNotification: true,
+        openFileFromNotification: true,
+        saveInPublicStorage: true,
+        requiresStorageNotLow: true,
+      );
     } else {
       // print('Not permission');
     }
@@ -86,39 +134,40 @@ class _ExampleState extends State<Example> {
 
   listenDownloadFile() {
     IsolateNameServer.registerPortWithName(
-        receivePort.sendPort, "downloadFile");
+        receivePort.sendPort, "downloader_send_port");
     receivePort.listen((dynamic data) {
       DownloadTaskStatus status = data[1];
-      // print('status status: ${status.value}');
-      // print('step progress: ${data[2]}');
+      taskID = data[0];
       setState(() {
         percentProgress = data[2];
+        downloadStatus = status.value;
+        print(downloadStatus);
         if (status.value == 3) {
-          // print('Download sucess sucess');
-          // download file success and callBack update isExist
           isDownloading = false;
         }
       });
     });
-    FlutterDownloader.registerCallback(downloadCallBack);
+    FlutterDownloader.registerCallback(Downloadlass.callBack);
   }
 
   @pragma('vm:entry-point')
-  static downloadCallBack(String id, DownloadTaskStatus status, int progress) {
-    SendPort? sendPort = IsolateNameServer.lookupPortByName('downloadFile');
-    sendPort!.send([id, status, progress]);
+  static void downloadCallBack(
+      String id, DownloadTaskStatus status, int progress) {
+    SendPort sendPort =
+        IsolateNameServer.lookupPortByName('downloader_send_port')!;
+    sendPort.send([id, status, progress]);
   }
 
   @override
   void initState() {
     super.initState();
-    listenDownloadFile();
     listFile = [];
+    listenDownloadFile();
   }
 
   @override
   void dispose() {
-    IsolateNameServer.removePortNameMapping('downloadFile');
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
     super.dispose();
   }
 
@@ -141,8 +190,6 @@ class _ExampleState extends State<Example> {
               GestureDetector(
                 onTap: () async {
                   await pickFileExcel();
-                  // ignore: use_build_context_synchronously
-                  // Navigator.of(context).pop();
                 },
                 child: Container(
                   height: 50,
@@ -173,14 +220,52 @@ class _ExampleState extends State<Example> {
                   paddingHorizontal: 12,
                 ),
                 onTapCard: (val) {
-                  // print('aaaabbbb: $val');
                   _downloadFile();
                 },
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              listFile.isNotEmpty
+                  ? FileCard(
+                      onTap: (val) {
+                        print('status1: $downloadStatus');
+                        _handleOnTap();
+                        print(val);
+                      },
+                      fileBoxParamenters: FileBoxParamenters(
+                        brightness: widget.brightness,
+                      ),
+                      filePath: listFile[0],
+                      textOpen: 'Mở',
+                      percentDownload: percentProgress,
+                      onActionTap: () {
+                        print('status2: $downloadStatus');
+                        _handleOnTap();
+                      },
+                      downloadStatus: downloadStatus,
+                      localFilePath: localFile,
+                      filePathDownload:
+                          'https://s3.ap-southeast-1.amazonaws.com/askany.dev/files/db3e607a-007c-4e08-887e-7478e3cfc4e4.pdf',
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  _handleOnTap() {
+    if (downloadStatus == 2) {
+      _cancelDownloadFile(taskID);
+    } else if (downloadStatus == 5) {
+      _retryDownload(taskID);
+    } else if (downloadStatus == 3) {
+      _openDownloadedFile(taskID);
+    } else {
+      // _resumeDownload(taskID);
+      _downloadFile();
+    }
   }
 }

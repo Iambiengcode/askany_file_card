@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:askany_file_card/colors/package_color.dart';
 import 'package:askany_file_card/models/file_box_paramenters.dart';
 import 'package:askany_file_card/models/string_of_file.dart';
+import 'package:askany_file_card/widgets/button_action_file.dart';
 import 'package:askany_file_card/widgets/custom_circle_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +16,9 @@ class FileCard extends StatefulWidget {
   final double sizeTextCapacity;
   final Color? colorIconDownload;
   final int? fileSize;
-  final int percentDownload;
-  final Function() onActionTap;
-  final int? downloadStatus;
-  final int? statusWhenDrop;
-  final String localFilePath;
-  final String filePathDownload;
+  final int currentProgress;
+  final int currentStatus;
+  final String? filePathUrl;
   const FileCard({
     super.key,
     required this.fileBoxParamenters,
@@ -31,12 +29,9 @@ class FileCard extends StatefulWidget {
     this.sizeTextTitle = 13,
     this.colorIconDownload,
     this.fileSize,
-    this.percentDownload = 0,
-    required this.onActionTap,
-    this.downloadStatus = 0,
-    this.statusWhenDrop = 0,
-    required this.localFilePath,
-    required this.filePathDownload,
+    this.currentProgress = 0,
+    this.currentStatus = 0,
+    this.filePathUrl, required Null Function() onActionTap, required String filePathDownload, required String localFilePath,
   });
 
   @override
@@ -44,10 +39,8 @@ class FileCard extends StatefulWidget {
 }
 
 class _FileCardState extends State<FileCard> {
-  late int percent;
-  late int statusDownload = 0;
-  late bool checkFileOnlineExist;
-  late bool isExistFile = false;
+  int percent = 0;
+  int statusDownload = 0;
   @override
   void initState() {
     percent = widget.percentDownload;
@@ -62,8 +55,8 @@ class _FileCardState extends State<FileCard> {
   @override
   void didUpdateWidget(covariant FileCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    percent = widget.percentDownload;
-    statusDownload = widget.downloadStatus!;
+    percent = widget.currentProgress;
+    statusDownload = widget.currentStatus;
   }
 
   @override
@@ -149,11 +142,20 @@ class _FileCardState extends State<FileCard> {
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 8),
-          buildButtonEnd(statusDownload, widget.onActionTap),
-          const SizedBox(width: 8),
-        ],
+            const SizedBox(width: 8),
+            ButtonActionFile(
+              textOpen: widget.textOpen,
+              percent: percent,
+              isExist: File(widget.filePath).existsSync() ||
+                  File(widget.filePathUrl ?? '').existsSync(),
+              onTap: widget.onTap,
+              fileBoxParamenters: widget.fileBoxParamenters,
+              status: statusDownload,
+              filePath: widget.filePath,
+            ),
+            const SizedBox(width: 8),
+          ],
+        ),
       ),
     );
   }

@@ -17,6 +17,7 @@ class FileCard extends StatefulWidget {
   final int? fileSize;
   final int currentProgress;
   final int currentStatus;
+  final String? filePathUrl;
   const FileCard({
     super.key,
     required this.fileBoxParamenters,
@@ -29,6 +30,7 @@ class FileCard extends StatefulWidget {
     this.fileSize,
     this.currentProgress = 0,
     this.currentStatus = 0,
+    this.filePathUrl,
   });
 
   @override
@@ -126,7 +128,9 @@ class _FileCardState extends State<FileCard> {
               textOpen: widget.textOpen,
               percent: widget.currentProgress,
               isExist: FileSystemEntity.typeSync(widget.filePath) !=
-                  FileSystemEntityType.notFound,
+                      FileSystemEntityType.notFound ||
+                  FileSystemEntity.typeSync(widget.filePathUrl ?? '') !=
+                      FileSystemEntityType.notFound,
               onTap: widget.onTap,
               fileBoxParamenters: widget.fileBoxParamenters,
               status: widget.currentStatus,

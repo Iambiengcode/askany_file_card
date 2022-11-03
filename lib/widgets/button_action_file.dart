@@ -25,17 +25,15 @@ class ButtonActionFile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return buildButtonEnd(
-        status: status,
-        fileBoxParamenters: fileBoxParamenters,
-        isExist: isExist,
-        ontap: onTap,
-        percent: percent,
-        textOpen: textOpen,
-        filePath: filePath,
-      );
-    });
+    return buildButtonEnd(
+      status: status,
+      fileBoxParamenters: fileBoxParamenters,
+      isExist: isExist,
+      ontap: onTap,
+      percent: percent,
+      textOpen: textOpen,
+      filePath: filePath,
+    );
   }
 }
 

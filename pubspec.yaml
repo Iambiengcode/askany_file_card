@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  open_file_plus: ^3.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

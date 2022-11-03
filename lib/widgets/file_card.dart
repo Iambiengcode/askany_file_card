@@ -130,6 +130,7 @@ class _FileCardState extends State<FileCard> {
               onTap: widget.onTap,
               fileBoxParamenters: widget.fileBoxParamenters,
               status: widget.currentStatus,
+              filePath: widget.filePath,
             ),
             const SizedBox(width: 8),
           ],

@@ -2,6 +2,7 @@ import 'package:askany_file_card/askany_file_card.dart';
 import 'package:askany_file_card/colors/package_color.dart';
 import 'package:askany_file_card/widgets/progress_cirlce.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 
 class ButtonActionFile extends StatelessWidget {
   final String textOpen;
@@ -10,6 +11,7 @@ class ButtonActionFile extends StatelessWidget {
   final Function onTap;
   final FileBoxParamenters fileBoxParamenters;
   final int status;
+  final String filePath;
   const ButtonActionFile({
     super.key,
     required this.textOpen,
@@ -18,6 +20,7 @@ class ButtonActionFile extends StatelessWidget {
     required this.onTap,
     required this.fileBoxParamenters,
     required this.status,
+    required this.filePath,
   });
 
   @override
@@ -30,6 +33,7 @@ class ButtonActionFile extends StatelessWidget {
         ontap: onTap,
         percent: percent,
         textOpen: textOpen,
+        filePath: filePath,
       );
     });
   }
@@ -43,11 +47,12 @@ Widget buildButtonEnd({
   required bool isExist,
   required FileBoxParamenters fileBoxParamenters,
   Colors? colorIconDownload,
+  required String filePath,
 }) {
   if (isExist) {
     return GestureDetector(
-      onTap: () {
-        // open File
+      onTap: () async {
+        await OpenFile.open(filePath);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(

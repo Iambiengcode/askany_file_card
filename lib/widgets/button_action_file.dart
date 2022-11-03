@@ -8,7 +8,7 @@ class ButtonActionFile extends StatefulWidget {
   final String textOpen;
   final int percent;
   final bool isExist;
-  final Function onTap;
+  final Function(String) onTap;
   final FileBoxParamenters fileBoxParamenters;
   final int status;
   final String filePath;

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:askany_file_card/colors/package_color.dart';
 import 'package:askany_file_card/models/file_box_paramenters.dart';
 import 'package:askany_file_card/models/string_of_file.dart';
+import 'package:askany_file_card/widgets/button_action_file.dart';
 import 'package:flutter/material.dart';
 
 class FileCard extends StatefulWidget {
@@ -14,6 +15,8 @@ class FileCard extends StatefulWidget {
   final double sizeTextCapacity;
   final Color? colorIconDownload;
   final int? fileSize;
+  final int currentProgress;
+  final int currentStatus;
   const FileCard({
     super.key,
     required this.fileBoxParamenters,
@@ -24,6 +27,8 @@ class FileCard extends StatefulWidget {
     this.sizeTextTitle = 13,
     this.colorIconDownload,
     this.fileSize,
+    this.currentProgress = 0,
+    this.currentStatus = 0,
   });
 
   @override
@@ -117,41 +122,15 @@ class _FileCardState extends State<FileCard> {
               ),
             ),
             const SizedBox(width: 8),
-            FileSystemEntity.typeSync(widget.filePath) !=
-                    FileSystemEntityType.notFound
-                ? Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 7,
-                    ),
-                    decoration: BoxDecoration(
-                      color: widget.fileBoxParamenters.brightness ==
-                              Brightness.dark
-                          ? backgroundOpenDark
-                          : backgroundOpenLight,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      widget.textOpen,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: widget.fileBoxParamenters.brightness ==
-                                Brightness.dark
-                            ? colorOpenDark
-                            : colorOpenLight,
-                      ),
-                    ),
-                  )
-                : Image.asset(
-                    'packages/askany_file_card/icons/ic_download.png',
-                    height: 17,
-                    width: 17,
-                    color: widget.colorIconDownload ??
-                        (widget.fileBoxParamenters.brightness == Brightness.dark
-                            ? colorTitleFileDark
-                            : colorTitleFileLight),
-                  ),
+            ButtonActionFile(
+              textOpen: widget.textOpen,
+              percent: widget.currentProgress,
+              isExist: FileSystemEntity.typeSync(widget.filePath) !=
+                  FileSystemEntityType.notFound,
+              onTap: widget.onTap,
+              fileBoxParamenters: widget.fileBoxParamenters,
+              status: widget.currentStatus,
+            ),
             const SizedBox(width: 8),
           ],
         ),

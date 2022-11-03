@@ -84,7 +84,9 @@ Widget buildButtonEnd({
         );
       case 3:
         return GestureDetector(
-          onTap: ontap(),
+          onTap: () {
+            ontap();
+          },
           child: Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 15,
@@ -110,7 +112,9 @@ Widget buildButtonEnd({
         );
       case 5:
         return GestureDetector(
-          onTap: ontap(),
+          onTap: () {
+            ontap();
+          },
           child: Image.asset('packages/askany_file_card/icons/ic_download.png',
               height: 17,
               width: 17,
@@ -120,7 +124,9 @@ Widget buildButtonEnd({
         );
       default:
         return GestureDetector(
-          onTap: ontap(),
+          onTap: () {
+            ontap();
+          },
           child: Image.asset(
             'packages/askany_file_card/icons/ic_download.png',
             height: 17,

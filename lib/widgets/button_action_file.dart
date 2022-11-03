@@ -4,7 +4,7 @@ import 'package:askany_file_card/widgets/progress_cirlce.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 
-class ButtonActionFile extends StatelessWidget {
+class ButtonActionFile extends StatefulWidget {
   final String textOpen;
   final int percent;
   final bool isExist;
@@ -24,118 +24,140 @@ class ButtonActionFile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return buildButtonEnd(
-      status: status,
-      fileBoxParamenters: fileBoxParamenters,
-      isExist: isExist,
-      ontap: onTap,
-      percent: percent,
-      textOpen: textOpen,
-      filePath: filePath,
-    );
-  }
+  State<ButtonActionFile> createState() => _ButtonActionFileState();
 }
 
-Widget buildButtonEnd({
-  required int status,
-  required Function ontap,
-  required String textOpen,
-  required int percent,
-  required bool isExist,
-  required FileBoxParamenters fileBoxParamenters,
-  Colors? colorIconDownload,
-  required String filePath,
-}) {
-  if (isExist) {
-    return GestureDetector(
-      onTap: () async {
-        await OpenFile.open(filePath);
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 7,
-        ),
-        decoration: BoxDecoration(
-          color: fileBoxParamenters.brightness == Brightness.dark
-              ? backgroundOpenDark
-              : backgroundOpenLight,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          textOpen,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
+class _ButtonActionFileState extends State<ButtonActionFile> {
+  int statusDownload = 0;
+  int percentDownload = 0;
+  @override
+  void initState() {
+    statusDownload = widget.status;
+    percentDownload = widget.percent;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant ButtonActionFile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    statusDownload = widget.status;
+    percentDownload = widget.percent;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return buildButtonEnd(
+      status: statusDownload,
+      fileBoxParamenters: widget.fileBoxParamenters,
+      isExist: widget.isExist,
+      ontap: widget.onTap,
+      percent: percentDownload,
+      textOpen: widget.textOpen,
+      filePath: widget.filePath,
+    );
+  }
+
+  Widget buildButtonEnd({
+    required int status,
+    required Function ontap,
+    required String textOpen,
+    required int percent,
+    required bool isExist,
+    required FileBoxParamenters fileBoxParamenters,
+    Colors? colorIconDownload,
+    required String filePath,
+  }) {
+    if (isExist) {
+      return GestureDetector(
+        onTap: () async {
+          await OpenFile.open(filePath);
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 7,
+          ),
+          decoration: BoxDecoration(
             color: fileBoxParamenters.brightness == Brightness.dark
-                ? colorOpenDark
-                : colorOpenLight,
+                ? backgroundOpenDark
+                : backgroundOpenLight,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            textOpen,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: fileBoxParamenters.brightness == Brightness.dark
+                  ? colorOpenDark
+                  : colorOpenLight,
+            ),
           ),
         ),
-      ),
-    );
-  } else {
-    switch (status) {
-      case 2:
-        return ProgressCircle(
-          percentProgress: percent,
-          onActionTap: ontap,
-        );
-      case 3:
-        return GestureDetector(
-          onTap: () {
-            ontap();
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 7,
-            ),
-            decoration: BoxDecoration(
-              color: fileBoxParamenters.brightness == Brightness.dark
-                  ? backgroundOpenDark
-                  : backgroundOpenLight,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              textOpen,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
+      );
+    } else {
+      switch (status) {
+        case 2:
+          return ProgressCircle(
+            percentProgress: percent,
+            onActionTap: ontap,
+          );
+        case 3:
+          return GestureDetector(
+            onTap: () {
+              ontap();
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 7,
+              ),
+              decoration: BoxDecoration(
                 color: fileBoxParamenters.brightness == Brightness.dark
-                    ? colorOpenDark
-                    : colorOpenLight,
+                    ? backgroundOpenDark
+                    : backgroundOpenLight,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                textOpen,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: fileBoxParamenters.brightness == Brightness.dark
+                      ? colorOpenDark
+                      : colorOpenLight,
+                ),
               ),
             ),
-          ),
-        );
-      case 5:
-        return GestureDetector(
-          onTap: () {
-            ontap();
-          },
-          child: Image.asset('packages/askany_file_card/icons/ic_download.png',
+          );
+        case 5:
+          return GestureDetector(
+            onTap: () {
+              ontap();
+            },
+            child: Image.asset(
+                'packages/askany_file_card/icons/ic_download.png',
+                height: 17,
+                width: 17,
+                color: (fileBoxParamenters.brightness == Brightness.dark
+                    ? colorTitleFileDark
+                    : colorTitleFileLight)),
+          );
+        default:
+          return GestureDetector(
+            onTap: () {
+              ontap();
+            },
+            child: Image.asset(
+              'packages/askany_file_card/icons/ic_download.png',
               height: 17,
               width: 17,
               color: (fileBoxParamenters.brightness == Brightness.dark
                   ? colorTitleFileDark
-                  : colorTitleFileLight)),
-        );
-      default:
-        return GestureDetector(
-          onTap: () {
-            ontap();
-          },
-          child: Image.asset(
-            'packages/askany_file_card/icons/ic_download.png',
-            height: 17,
-            width: 17,
-            color: (fileBoxParamenters.brightness == Brightness.dark
-                ? colorTitleFileDark
-                : colorTitleFileLight),
-          ),
-        );
+                  : colorTitleFileLight),
+            ),
+          );
+      }
     }
   }
 }

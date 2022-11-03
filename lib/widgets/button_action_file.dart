@@ -104,9 +104,7 @@ class _ButtonActionFileState extends State<ButtonActionFile> {
           );
         case 3:
           return GestureDetector(
-            onTap: () {
-              ontap();
-            },
+            onTap: () => ontap,
             child: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 15,
@@ -132,9 +130,7 @@ class _ButtonActionFileState extends State<ButtonActionFile> {
           );
         case 5:
           return GestureDetector(
-            onTap: () {
-              ontap();
-            },
+            onTap: () => ontap,
             child: Image.asset(
                 'packages/askany_file_card/icons/ic_download.png',
                 height: 17,
@@ -145,9 +141,7 @@ class _ButtonActionFileState extends State<ButtonActionFile> {
           );
         default:
           return GestureDetector(
-            onTap: () {
-              ontap();
-            },
+            onTap: () => ontap,
             child: Image.asset(
               'packages/askany_file_card/icons/ic_download.png',
               height: 17,

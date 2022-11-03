@@ -38,9 +38,18 @@ class FileCard extends StatefulWidget {
 }
 
 class _FileCardState extends State<FileCard> {
+  int percent = 0;
+  int statusDownload = 0;
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant FileCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    percent = widget.currentProgress;
+    statusDownload = widget.currentStatus;
   }
 
   @override
@@ -126,14 +135,14 @@ class _FileCardState extends State<FileCard> {
             const SizedBox(width: 8),
             ButtonActionFile(
               textOpen: widget.textOpen,
-              percent: widget.currentProgress,
-              isExist: FileSystemEntity.typeSync(widget.filePath) !=
-                      FileSystemEntityType.notFound ||
-                  FileSystemEntity.typeSync(widget.filePathUrl ?? '') !=
-                      FileSystemEntityType.notFound,
+              percent: percent,
+              isExist: (FileSystemEntity.typeSync(widget.filePath) !=
+                      FileSystemEntityType.notFound) ||
+                  (FileSystemEntity.typeSync(widget.filePathUrl ?? '') !=
+                      FileSystemEntityType.notFound),
               onTap: widget.onTap,
               fileBoxParamenters: widget.fileBoxParamenters,
-              status: widget.currentStatus,
+              status: statusDownload,
               filePath: widget.filePath,
             ),
             const SizedBox(width: 8),

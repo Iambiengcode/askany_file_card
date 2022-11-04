@@ -46,10 +46,10 @@ class _FileCardState extends State<FileCard> {
     print(File(widget.filePath).existsSync() ||
         File(widget.filePathUrl ?? '').existsSync());
     print(
-        '${widget.filePath} ${FileSystemEntity.typeSync(widget.filePath) != FileSystemEntityType.notFound}');
+        'hahah ${widget.filePath} ${FileSystemEntity.typeSync(widget.filePath) != FileSystemEntityType.notFound}');
 
     print(
-        '${widget.filePathUrl} ${FileSystemEntity.typeSync(widget.filePathUrl ?? '') != FileSystemEntityType.notFound}');
+        'hahaha ${widget.filePathUrl} ${FileSystemEntity.typeSync(widget.filePathUrl ?? '') != FileSystemEntityType.notFound}');
   }
 
   @override

@@ -43,13 +43,6 @@ class _FileCardState extends State<FileCard> {
   @override
   void initState() {
     super.initState();
-    print(File(widget.filePath).existsSync() ||
-        File(widget.filePathUrl ?? '').existsSync());
-    print(
-        'hahah ${widget.filePath} ${FileSystemEntity.typeSync(widget.filePath) != FileSystemEntityType.notFound}');
-
-    print(
-        'hahaha ${widget.filePathUrl} ${FileSystemEntity.typeSync(widget.filePathUrl ?? '') != FileSystemEntityType.notFound}');
   }
 
   @override
@@ -143,12 +136,17 @@ class _FileCardState extends State<FileCard> {
             ButtonActionFile(
               textOpen: widget.textOpen,
               percent: percent,
-              isExist: File(widget.filePathUrl ?? '').existsSync() ||
-                  File(widget.filePath).existsSync(),
+              isExist: (FileSystemEntity.typeSync(widget.filePathUrl ?? '') !=
+                      FileSystemEntityType.notFound) ||
+                  (FileSystemEntity.typeSync(widget.filePath) !=
+                      FileSystemEntityType.notFound),
               onTap: widget.onTap,
               fileBoxParamenters: widget.fileBoxParamenters,
               status: statusDownload,
-              filePath: widget.filePath,
+              filePath: (FileSystemEntity.typeSync(widget.filePath) !=
+                      FileSystemEntityType.notFound)
+                  ? widget.filePath
+                  : widget.filePathUrl ?? '',
             ),
             const SizedBox(width: 8),
           ],

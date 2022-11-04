@@ -1,6 +1,4 @@
 import 'package:askany_file_card/askany_file_card.dart';
-import 'package:askany_file_card/models/file_box_paramenters.dart';
-import 'package:askany_file_card/widgets/list_file_card.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +42,6 @@ class _ExampleState extends State<Example> {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       if (result != null) {
-        print(result.files.first.path.toString());
         setState(() {
           listFile.add(result.files.first.path.toString());
         });
@@ -115,10 +112,12 @@ class _ExampleState extends State<Example> {
                 fileBoxParamenters: FileBoxParamenters(
                   brightness: widget.brightness,
                 ),
-                filePath: '',
-                onTap: (val) {},
+                filePath:
+                    'data/user/0/com.askany/cache/file_picker/Dang-Quoc-Trung-asjkldhaskld-123123123147184.pdf',
+                onTap: (val) async {},
+                fileSize: 123123,
                 filePathUrl:
-                    '/data/user/0/com.askany/cache/file_picker/18dd95d7-bc5b-4be8-be15-e98064d7a60b.docx',
+                    '/storage/emulated/0/Download/8e6824e6-7605-46d1-abc1-0c16bf49825f.pdf',
               ),
             ],
           ),

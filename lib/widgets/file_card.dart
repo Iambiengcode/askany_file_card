@@ -43,6 +43,12 @@ class _FileCardState extends State<FileCard> {
   @override
   void initState() {
     super.initState();
+    print(File(widget.filePath).existsSync() ||
+        File(widget.filePathUrl ?? '').existsSync());
+    print('${widget.filePath} ${File(widget.filePath).existsSync()}');
+
+    print(
+        '${widget.filePathUrl} ${File(widget.filePathUrl ?? '').existsSync()}');
   }
 
   @override

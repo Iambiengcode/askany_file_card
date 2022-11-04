@@ -1,3 +1,4 @@
+import 'package:askany_file_card/askany_file_card.dart';
 import 'package:askany_file_card/models/file_box_paramenters.dart';
 import 'package:askany_file_card/widgets/list_file_card.dart';
 import 'package:file_picker/file_picker.dart';
@@ -43,6 +44,7 @@ class _ExampleState extends State<Example> {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       if (result != null) {
+        print(result.files.first.path.toString());
         setState(() {
           listFile.add(result.files.first.path.toString());
         });
@@ -97,17 +99,26 @@ class _ExampleState extends State<Example> {
               const SizedBox(
                 height: 40,
               ),
-              ListFileCard(
-                listPath: listFile,
+              // ListFileCard(
+              //   listPath: listFile,
+              //   fileBoxParamenters: FileBoxParamenters(
+              //     brightness: widget.brightness,
+              //   ),
+              //   fileBoxParamentersCard: FileBoxParamenters(
+              //     brightness: widget.brightness,
+              //     paddingVertical: 12,
+              //     paddingHorizontal: 12,
+              //   ),
+              //   onTapCard: (val) {},
+              // ),
+              FileCard(
                 fileBoxParamenters: FileBoxParamenters(
                   brightness: widget.brightness,
                 ),
-                fileBoxParamentersCard: FileBoxParamenters(
-                  brightness: widget.brightness,
-                  paddingVertical: 12,
-                  paddingHorizontal: 12,
-                ),
-                onTapCard: (val) {},
+                filePath: '',
+                onTap: (val) {},
+                filePathUrl:
+                    '/data/user/0/com.askany/cache/file_picker/18dd95d7-bc5b-4be8-be15-e98064d7a60b.docx',
               ),
             ],
           ),

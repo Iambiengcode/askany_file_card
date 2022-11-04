@@ -143,8 +143,8 @@ class _FileCardState extends State<FileCard> {
             ButtonActionFile(
               textOpen: widget.textOpen,
               percent: percent,
-              isExist: File(widget.filePath).existsSync() ||
-                  File(widget.filePathUrl ?? '').existsSync(),
+              isExist: File(widget.filePathUrl ?? '').existsSync() ||
+                  File(widget.filePath).existsSync(),
               onTap: widget.onTap,
               fileBoxParamenters: widget.fileBoxParamenters,
               status: statusDownload,

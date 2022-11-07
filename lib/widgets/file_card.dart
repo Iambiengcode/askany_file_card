@@ -50,6 +50,9 @@ class _FileCardState extends State<FileCard> {
     super.didUpdateWidget(oldWidget);
     percent = widget.currentProgress;
     statusDownload = widget.currentStatus;
+
+    print('percent download: $percent');
+    print('status download: $statusDownload');
   }
 
   @override
